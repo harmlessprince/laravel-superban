@@ -27,11 +27,13 @@ class SuperBanServiceProvider extends ServiceProvider
 
         $router->aliasMiddleware('superban', SuperBanMiddleware::class);
 
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/../config/config.php' => config_path('superban.php'),
-            ], 'config');
-        }
+//        if ($this->app->runningInConsole()) {
+//
+//            $this->publishes([
+//                __DIR__ . '/../config/config.php'  => config_path('superban.php'),
+//            ]);
+//
+//        }
 
 
 

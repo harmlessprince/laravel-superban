@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="vendor/autoload.php" backupGlobals="false" colors="true" processIsolation="false" stopOnFailure="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="vendor/autoload.php" backupGlobals="false" colors="true" processIsolation="false" stopOnFailure="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" >
   <coverage/>
   <testsuites>
     <testsuite name="Harmless-prince Test Suite">
@@ -10,9 +10,4 @@
     <env name="CACHE_DRIVER" value="file"/>
     <env name="SUPERBAN_CACHE_DRIVER" value="file"/>
   </php>
-  <source>
-    <include>
-      <directory suffix=".php">src/</directory>
-    </include>
-  </source>
 </phpunit>
