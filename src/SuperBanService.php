@@ -70,11 +70,6 @@ class SuperBanService
         return base64_encode($key);
     }
 
-//    protected function encrypt(string $data): string
-//    {
-//        $encrypter = new Encrypter(config('superban.encryption_key'));
-//        return $encrypter->encrypt($data);
-//    }
 
     /**
      * Validates the parameters used in the configuration of rate limiting.
