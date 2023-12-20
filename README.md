@@ -14,11 +14,11 @@ Below is a brief explanation of the algorithm from Google
 `The token bucket is an algorithm used in packet-switched and telecommunications networks. It can be used to check that data transmissions, in the form of packets, conform to defined limits on bandwidth and burstiness (a measure of the unevenness or variations in the traffic flow).
 `
 
-In the concept of this Superban package, below is a brief explanation on how it works.
+In the concept of this Superban package, below is a brief explanation of how it works.
 
-The middleware a first parameter called maximumRequest. This maximum request parameter reprints our tokens and are associated to a key in the cache. So each incoming request into our server consumes a token, if there are no tokens left, the request is rejected. If the client tries to hit the same endpoint again within the interval specified for the token to be used, the client is then banned from the specific route for the duration of the ban time supplied.
+The middleware has a first parameter called maximumRequest. This maximum request parameter represents our tokens and is associated with a key in the cache. So each incoming request into our server consumes a token; if no tokens are left, the request is rejected. If the client tries to hit the same endpoint again within the interval specified for the token to be used, the client is then banned from the specific route for the duration of the ban time supplied.
 
-`Note: All supplied parameters are expected to be in minutes`
+`Note: All supplied parameters are expected to be in minutes.`
 
 </p>
 
@@ -27,7 +27,7 @@ The middleware a first parameter called maximumRequest. This maximum request par
 composer require harmlessprince/superban
 ```
 
-Once the Superban package is installed, the package will be autoloaded, this package is built with php 8.1. Any laravel version that supports php 8.1 will autoload the package. However, if you want to add it yourself.
+Once the Superban package is installed, the package will be autoloaded, this package is built with php 8.1. Any Laravel version that supports PHP 8.1 will autoload the package; however, if you want to add it yourself.
 
 Open up `config/app.php` and add the following to the `providers` key.
 
@@ -39,7 +39,7 @@ Open up `config/app.php` and add the following to the `providers` key.
 ```
 
 ## Configuration
-The default cache driver is `file`, you can change it to any laravel supported cache driver in your environment variable like below
+The default cache driver is `file`; you can change it to any laravel supported cache driver in your environment variable like below
 
 ```dotenv
 SUPER_BAN_CACHE_DRIVER=redis
@@ -59,7 +59,7 @@ A configuration-file named `superban.php` with  defaults will be placed in your 
 return [
     /*
     |--------------------------------------------------------------------------
-    | Default Cache Store
+    | Default Cache-Store
     |--------------------------------------------------------------------------
     |
     | This option controls the default cache connection that gets used while
@@ -90,7 +90,7 @@ return [
 <p>
 To use the SuperBan middleware in your routes, you can apply it like any other middleware. For example, in your routes file or controller:
 
-You can customize the SuperBan behavior by providing additional parameters:
+You can customize the SuperBan behaviour by providing additional parameters:
 </p>
 
 <ul>
@@ -176,7 +176,7 @@ X-Superban-Ratelimit-Limit: 2
 X-Superban-Ratelimit-Remaining: 0
 X-Superban-Retry-After: 18
 ```
-In the response header below, this implies the client has excided the maximum number of request and can try again in 18 seconds
+The response header below implies the client has excided the maximum number of requests and can try again in 18 seconds.
 ### Testing
 
 ```bash
@@ -189,7 +189,7 @@ Super Ban Cache Manager (Harmlessprince\SuperBan\Tests\Unit\SuperBanCacheManager
  ✔ It is an instance of cache manager
 
 Super Ban Middleware (Harmlessprince\SuperBan\Tests\Feature\SuperBanMiddleware)
- ✔ Invalid param throws internal server error
+ ✔ Invalid param throws an internal server error
  ✔ Valid param return goes to next middleware
  ✔ Client get too many after exhausting max request
  ✔ Client first too many request then get they have banned
