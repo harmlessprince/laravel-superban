@@ -10,8 +10,8 @@ use Illuminate\Cache\Repository;
 
 class SuperBanCacheManagerTest extends BaseTestCase
 {
-    /** @var SuperBanCacheManager */
-    private $repository;
+
+    private SuperBanCacheManager $repository;
 
     public function setUp(): void
     {
@@ -22,7 +22,7 @@ class SuperBanCacheManagerTest extends BaseTestCase
     }
 
 
-    public function test_it_is_an_instance_of_repository()
+    public function test_it_is_an_instance_of_cache_manager()
     {
         $this->assertInstanceOf(CacheManager::class, $this->repository);
     }

@@ -9,6 +9,7 @@
   <php>
     <env name="CACHE_DRIVER" value="file"/>
     <env name="SUPERBAN_CACHE_DRIVER" value="file"/>
+    <env name="SUPER_BAN_ENCRYPTION_KEY" value="base64:EuvB2AFZitKU5AB8k/TQpDR2e5XgQ9MZq3mcYWw4uZI="/>
   </php>
   <source>
     <include>

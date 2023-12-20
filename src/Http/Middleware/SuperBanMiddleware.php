@@ -5,9 +5,6 @@ namespace Harmlessprince\SuperBan\Http\Middleware;
 
 use Closure;
 use Harmlessprince\SuperBan\Exceptions\SuperBanClientBannedException;
-use Harmlessprince\SuperBan\Exceptions\SuperBanInvalidBanTimeParamException;
-use Harmlessprince\SuperBan\Exceptions\SuperBanInvalidIntervalParamException;
-use Harmlessprince\SuperBan\Exceptions\SuperBanInvalidMaxRequestParamException;
 use Harmlessprince\SuperBan\Exceptions\SuperBanTooManyRequestException;
 use Harmlessprince\SuperBan\SuperBanCacheManager;
 use Harmlessprince\SuperBan\SuperBanService;
@@ -38,16 +35,12 @@ class SuperBanMiddleware
      * @throws SuperBanClientBannedException
      * @throws SuperBanTooManyRequestException
      */
-    public function handle(Request $request, Closure $next, $maximumRequests = 200, $intervalInMinutes = 2, $banTimeMinutes = 1440, $key = null): Response
+    public function handle(Request $request, Closure $next, $maximumRequests = 200, $intervalInMinutes = 2, $banTimeMinutes = 1440): Response
     {
-        if (is_null($key)) {
-            $key = $this->service->geDefaultKey($request);
-        }
 
         $this->service->validateParameters($maximumRequests, $intervalInMinutes, $banTimeMinutes);
 
-        $key = $this->service->resolveRequestSignature($request, $key);
-
+        $key = $this->service->resolveRequestSignature($request);
         $intervalInSeconds = $intervalInMinutes * 60;
         $banTimeInSeconds = $banTimeMinutes * 60;
 

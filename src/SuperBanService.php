@@ -65,16 +65,16 @@ class SuperBanService
         } else {
             $defaultKey = $request->getClientIp();
         }
-
         //for the key to be unique for each request
-        return $this->encrypt($request->method() . $request->url() . $defaultKey);
+        $key = $request->method() . '_' . $request->url() . '_' . $defaultKey;
+        return base64_encode($key);
     }
 
-    protected function encrypt(string $data): string
-    {
-        // Use your preferred encryption method here
-        return Crypt::encryptString($data);
-    }
+//    protected function encrypt(string $data): string
+//    {
+//        $encrypter = new Encrypter(config('superban.encryption_key'));
+//        return $encrypter->encrypt($data);
+//    }
 
     /**
      * Validates the parameters used in the configuration of rate limiting.

@@ -4,6 +4,7 @@ namespace Harmlessprince\SuperBan\Tests;
 
 use Harmlessprince\SuperBan\Http\Middleware\SuperBanMiddleware;
 use Harmlessprince\SuperBan\SuperBanServiceProvider;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use \Orchestra\Testbench\TestCase as OrchestraTestCase;
@@ -25,7 +26,7 @@ class BaseTestCase extends OrchestraTestCase
     protected function setUpDummyRoutes()
     {
         $this->app['router']->group(
-            ['middleware' => SuperBanMiddleware::class . ':0,1,1,default'],
+            ['middleware' => SuperBanMiddleware::class . ':0,1,1'],
             function () {
                 $this->app['router']->get('use-invalid-param', function () {
                     return 'Hello world!';
@@ -34,7 +35,7 @@ class BaseTestCase extends OrchestraTestCase
         );
 
         $this->app['router']->group(
-            ['middleware' => SuperBanMiddleware::class. ':2,2,2,valid_key'],
+            ['middleware' => SuperBanMiddleware::class. ':2,2,2'],
             function () {
                 $this->app['router']->get('next-middleware-called', function () {
                     return 'Hello world!';
@@ -43,7 +44,7 @@ class BaseTestCase extends OrchestraTestCase
         );
 
         $this->app['router']->group(
-            ['middleware' => SuperBanMiddleware::class. ':2,2,2,valid_key'],
+            ['middleware' => SuperBanMiddleware::class. ':2,2,2'],
             function () {
                 $this->app['router']->get('ban/client', function () {
                     return 'Hello world!';
@@ -52,7 +53,7 @@ class BaseTestCase extends OrchestraTestCase
         );
 
         $this->app['router']->group(
-            ['middleware' => SuperBanMiddleware::class. ':2,2,2,valid_key'],
+            ['middleware' => SuperBanMiddleware::class. ':2,2,2'],
             function () {
                 $this->app['router']->get('too/many/request', function () {
                     return 'Hello world!';
@@ -61,7 +62,7 @@ class BaseTestCase extends OrchestraTestCase
         );
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             SuperBanServiceProvider::class,
