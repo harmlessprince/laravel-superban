@@ -11,7 +11,7 @@ class SuperBanServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/superban.php', 'superban');
+       $this->mergeConfig();
     }
 
     /**
@@ -19,6 +19,8 @@ class SuperBanServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishConfigs();
+
         $this->app->bind(SuperBanCacheManager::class, function () {
             return new SuperBanCacheManager($this->app);
         });
@@ -27,16 +29,28 @@ class SuperBanServiceProvider extends ServiceProvider
 
         $router->aliasMiddleware('superban', SuperBanMiddleware::class);
 
-//        if ($this->app->runningInConsole()) {
-//
-//            $this->publishes([
-//                __DIR__ . '/../config/config.php'  => config_path('superban.php'),
-//            ]);
-//
-//        }
 
 
 
 
     }
+
+    protected function publishConfigs(): void
+    {
+        $path = $this->getConfigPath();
+        $this->publishes([
+            $path => config_path('superban.php'),
+        ], 'superban-config');
+    }
+
+    public function getConfigPath()
+    {
+        return __DIR__ . '/../config/superban.php';
+    }
+    private function mergeConfig()
+    {
+        $path = $this->getConfigPath();
+        $this->mergeConfigFrom($path, 'superban');
+    }
+
 }

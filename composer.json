@@ -5,12 +5,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Harmlessprince\\SuperBan\\": "src/"
+            "Harmlessprince\\SuperBan\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Harmlessprince\\SuperBan\\Tests\\": "tests/"
+            "Harmlessprince\\SuperBan\\Tests\\": "tests"
         }
     },
     "authors": [
