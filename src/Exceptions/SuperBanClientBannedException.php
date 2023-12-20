@@ -8,7 +8,6 @@ class SuperBanClientBannedException extends HttpException
 {
     public function __construct($retryAfterInSeconds, $maximumRequests)
     {
-        print_r("SuperBanClientBannedException You were called");
         parent::__construct(
              401,
             "You have been banned, retry in " . $retryAfterInSeconds,

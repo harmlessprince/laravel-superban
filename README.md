@@ -2,21 +2,21 @@
 # Superban Package
 
 <p>
-    SuperBan is a Laravel middleware package that helps you manage and control the rate of incoming requests to your application. It can be useful in scenarios where you want to prevent abuse, limit the number of requests from a specific client, and enforce temporary bans when necessary.
+    SuperBan is a Laravel middleware package that helps you manage and control the rate of incoming requests to your application. It can be useful in scenarios where you want to prevent abuse, limit the number of requests from a specific route or group of route the client and enforce temporary bans when necessary.
 
 </p>
 
 <p>
-The package is designed using the `Token Bucket Algorithm` algorithm. 
+The package is designed using the <em>Token Bucket Algorithm</em>. 
 
-Below is a brief explanation of the algorithm from google
+Below is a brief explanation of the algorithm from Google
 
 `The token bucket is an algorithm used in packet-switched and telecommunications networks. It can be used to check that data transmissions, in the form of packets, conform to defined limits on bandwidth and burstiness (a measure of the unevenness or variations in the traffic flow).
 `
 
-In the concept of this SuperBan middleware, below is a brief explanation on how it works
+In the concept of this Superban package, below is a brief explanation on how it works.
 
-The middleware a first parameter called maximumRequest. This maximum request parameter reprents our tokens and are associated to a key in the cache. So each incoming request into our server consumes a token, if there are no tokens left, the request is rejected. If the client tries to hit the same endpoint again within the interval, the client iss then banned from the specific route for the duration of the ban time.
+The middleware a first parameter called maximumRequest. This maximum request parameter reprints our tokens and are associated to a key in the cache. So each incoming request into our server consumes a token, if there are no tokens left, the request is rejected. If the client tries to hit the same endpoint again within the interval specified for the token to be used, the client is then banned from the specific route for the duration of the ban time supplied.
 
 `Note: All supplied parameters are expected to be in minutes`
 
@@ -27,7 +27,7 @@ The middleware a first parameter called maximumRequest. This maximum request par
 composer require harmlessprince/superban
 ```
 
-Once the Superban package is installed, the package will be autoloaded, this package is built with php 8.1. Any laravel version that supports 8.1 will autoload the package. However if you want to add it yourself.
+Once the Superban package is installed, the package will be autoloaded, this package is built with php 8.1. Any laravel version that supports php 8.1 will autoload the package. However, if you want to add it yourself.
 
 Open up `config/app.php` and add the following to the `providers` key.
 
@@ -166,7 +166,34 @@ Route::middleware(['superban:200,2,1440])->group(function () {
 ```bash
 composer test
 ```
+Test Result Should Look Like This
 
+```
+Super Ban Cache Manager (Harmlessprince\SuperBan\Tests\Unit\SuperBanCacheManager)
+ ✔ It is an instance of cache manager
+
+Super Ban Middleware (Harmlessprince\SuperBan\Tests\Feature\SuperBanMiddleware)
+ ✔ Invalid param throws internal server error
+ ✔ Valid param return goes to next middleware
+ ✔ Client get too many after exhausting max request
+ ✔ Client first too many request then get they have banned
+
+Super Ban Service (Harmlessprince\SuperBan\Tests\Unit\SuperBanService)
+ ✔ Invalid max requests param
+ ✔ Invalid interval param
+ ✔ Invalid ban time param
+ ✔ Non umeric values params
+ ✔ Zero max requests param
+ ✔ Zero interval param
+ ✔ Zero ban time param
+
+Super Ban Service Provider (Harmlessprince\SuperBan\Tests\Unit\SuperBanServiceProvider)
+ ✔ It registers config
+ ✔ It binds superban cache repository
+
+OK (14 tests, 19 assertions)
+
+```
 
 ## Author
 Name: Adewuyi Taofeeq <br>
