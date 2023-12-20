@@ -1,6 +1,7 @@
 <?php
 
 namespace Harmlessprince\SuperBan;
+
 use Harmlessprince\SuperBan\Http\Middleware\SuperBanMiddleware;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Routing\Router;
@@ -18,11 +19,6 @@ class SuperBanServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__ . '/config/superban.php' => config_path('superban.php'),
-        ], 'config');
-
-
         $this->app->bind(SuperBanCacheManager::class, function () {
             return new SuperBanCacheManager($this->app);
         });
@@ -30,6 +26,15 @@ class SuperBanServiceProvider extends ServiceProvider
         $router = $this->app->make(Router::class);
 
         $router->aliasMiddleware('superban', SuperBanMiddleware::class);
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../config/config.php' => config_path('superban.php'),
+            ], 'config');
+        }
+
+
+
 
     }
 }
