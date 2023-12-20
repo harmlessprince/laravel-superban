@@ -19,7 +19,6 @@
             "email": "realolamilekan@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
         "php": "^8.1"
     },

@@ -14,11 +14,13 @@ class BaseTestCase extends OrchestraTestCase
     public function setUp(): void
     {
         parent::setUp();
+        set_error_handler([$this, 'customErrorHandler']);
         $this->setUpDummyRoutes();
     }
     protected function tearDown(): void
     {
         Cache::flush();
+        restore_error_handler();
         parent::tearDown();
 
     }
@@ -72,5 +74,9 @@ class BaseTestCase extends OrchestraTestCase
     protected function getEnvironmentSetUp($app)
     {
         // perform environment setup
+    }
+    public function customErrorHandler($errno, $errstr, $errfile, $errline): void {
+        // Your custom error handling logic
+        // ...
     }
 }
