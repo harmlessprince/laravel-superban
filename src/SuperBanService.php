@@ -6,6 +6,7 @@ use Harmlessprince\SuperBan\Exceptions\SuperBanInvalidBanTimeParamException;
 use Harmlessprince\SuperBan\Exceptions\SuperBanInvalidIntervalParamException;
 use Harmlessprince\SuperBan\Exceptions\SuperBanInvalidMaxRequestParamException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class SuperBanService
 {
@@ -23,16 +24,11 @@ class SuperBanService
      * request signature is generated based on the configured default key in the `superban` package.
      *
      * @param Request $request An instance of the `Illuminate\Http\Request` class representing the incoming HTTP request.
-     * @param string|null $key (Optional) The key to be used as the request signature. If null, the default signature is used.
-     *
      * @return string The resolved request signature.
      */
-    public function resolveRequestSignature(Request $request, string $key = null): string
+    public function resolveRequestSignature(Request $request): string
     {
-        if (is_null($key)) {
-            return $this->defaultRequestSignature($request);
-        }
-        return $key;
+        return $this->requestSignature($request);
     }
 
     /**
@@ -56,19 +52,28 @@ class SuperBanService
      *
      * @param Request $request An instance of the `Illuminate\Http\Request` class representing the incoming HTTP request.
      *
-     * @return string A string representing the default signature for the given request.
+     * @return string An encrypted string representing the signature for the given request.
      */
-    protected function defaultRequestSignature(Request $request): string
+    protected function requestSignature(Request $request): string
     {
-        $default_key = \config('superban.default_request_key');
+        $defaultKey = config('superban.default_request_key');
 
-        if ($default_key == 'email' & $request->user()) {
-            return $request->user()->email;
+        if ($defaultKey == 'email' && $request->user()) {
+            $defaultKey = $request->user()->email;
+        } elseif ($defaultKey == 'id' && $request->user()) {
+            $defaultKey = $request->user()->getAuthIdentifier();
+        } else {
+            $defaultKey = $request->getClientIp();
         }
-        if ($default_key == 'id' & $request->user()) {
-            return $request->user()->getAuthIdentifier();
-        }
-        return $request->ip();
+
+        //for the key to be unique for each request
+        return $this->encrypt($request->method() . $request->url() . $defaultKey);
+    }
+
+    protected function encrypt(string $data): string
+    {
+        // Use your preferred encryption method here
+        return Crypt::encryptString($data);
     }
 
     /**
@@ -92,8 +97,8 @@ class SuperBanService
         $this->validateNumericParameter($interval, new SuperBanInvalidIntervalParamException());
         $this->validateNumericParameter($banTime, new SuperBanInvalidBanTimeParamException());
 
-        $this->validatePositiveParameter($maxRequests,  new SuperBanInvalidMaxRequestParamException());
-        $this->validatePositiveParameter($interval,  new SuperBanInvalidIntervalParamException());
+        $this->validatePositiveParameter($maxRequests, new SuperBanInvalidMaxRequestParamException());
+        $this->validatePositiveParameter($interval, new SuperBanInvalidIntervalParamException());
         $this->validatePositiveParameter($banTime, new SuperBanInvalidBanTimeParamException());
 
     }
