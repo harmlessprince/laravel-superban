@@ -166,7 +166,17 @@ Route::middleware(['superban:200,2,1440])->group(function () {
   </li>
 </ul>
 
+### Extra
+<p>
+When you use the middlware in your route, the package adds some headers to every response going out of the application like below 
+</p>
 
+```bash
+X-Superban-Ratelimit-Limit: 2
+X-Superban-Ratelimit-Remaining: 0
+X-Superban-Retry-After: 18
+```
+In the response header below, this implies the client has excided the maximum number of request and can try again in 18 seconds
 ### Testing
 
 ```bash
