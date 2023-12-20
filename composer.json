@@ -1,0 +1,41 @@
+{
+    "name": "harmlessprince/superban",
+    "description": "Ban client completely for a period of time after they have exhausted there request",
+    "type": "libary",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Harmlessprince\\SuperBan\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Harmlessprince\\SuperBan\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "harmlessprince",
+            "email": "realolamilekan@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "10.5.x-dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Harmlessprince\\SuperBan\\SuperBanServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --testdox",
+        "test-f": "vendor/bin/phpunit --filter"
+    }
+}
