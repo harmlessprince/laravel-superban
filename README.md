@@ -39,16 +39,22 @@ Open up `config/app.php` and add the following to the `providers` key.
 ```
 
 ## Configuration
+The default cache driver is `file`, you can change it to any laravel supported cache driver in your environment variable like below
+
+```dotenv
+SUPER_BAN_CACHE_DRIVER=redis
+```
 
 You can publish the configuration file using this command:
 
 ```bash
-php artisan vendor:publish --provider="Harmlessprince\SuperBan\SuperBanServiceProvider"
+php artisan vendor:publish --provider="Harmlessprince\SuperBan\SuperBanServiceProvider" --tag=superban-config
 ```
 
 A configuration-file named `superban.php` with  defaults will be placed in your `config` directory:
 
 ```php
+
 <?php
 return [
     /*
@@ -63,7 +69,7 @@ return [
     | ** All laravel cache stores are supported **
     |
     */
-    'cache_manager' => env('SUPERBAN_CACHE_DRIVER', 'file'),
+    'cache_manager' => env('SUPER_BAN_CACHE_DRIVER', 'file'),
 
     /*
    |--------------------------------------------------------------------------
